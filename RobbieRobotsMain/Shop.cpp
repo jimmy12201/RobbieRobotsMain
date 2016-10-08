@@ -21,7 +21,7 @@ void shop::MainMenu()
 		}
 		else if (input == 3)
 		{
-
+			printModels();
 		}
 		
 	} while (input != 0);
@@ -68,4 +68,10 @@ void shop::createModel() {
 	robotModels TempModel;
 	TempModel.createRobot(arms,torsos,heads,batteries,locomotors);
 	completedModels.push_back(TempModel);
+}
+void shop::printModels() {
+	for (int i = 0; i < completedModels.size();i++)
+	{
+		completedModels[i].printRobotNames();
+	}
 }

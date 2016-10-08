@@ -7,7 +7,7 @@ using namespace std;
 
 class roboParts{
 public:
-	void initializePart();
+	virtual void initializePart();
 	string getName();
 	int getpartNumber();
 	double getWeight();

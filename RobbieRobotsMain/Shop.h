@@ -9,6 +9,7 @@ public:
 	void MainMenu();
 	void createPart();
 	void createModel();
+	void printModels();
 	
 private:
 	vector<robotModels> completedModels;
