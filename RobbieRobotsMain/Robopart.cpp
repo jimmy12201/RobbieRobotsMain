@@ -27,6 +27,9 @@ int roboParts::getpartNumber()
 double roboParts::getWeight() {
 	return weight;
 }
+double roboParts::getCost() {
+	return cost;
+}
 string roboParts::getDescription() {
 	return description;
 } 

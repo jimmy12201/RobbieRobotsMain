@@ -13,6 +13,7 @@ class robotModels {
 public:
 	void createRobot(vector<arm>&, vector<torso>&, vector<head>&, vector<battery>&, vector<locomotor>&);
 	void printRobotNames();
+	double getModelCost();
 private:
 	vector<roboParts*> modelParts;
 	string name;

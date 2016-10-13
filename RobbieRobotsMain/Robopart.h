@@ -12,6 +12,7 @@ public:
 	int getpartNumber();
 	double getWeight();
 	string getDescription();
+	double getCost();
 protected:
 	string name;
 	int partNumber;

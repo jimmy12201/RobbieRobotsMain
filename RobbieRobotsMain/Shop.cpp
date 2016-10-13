@@ -73,5 +73,6 @@ void shop::printModels() {
 	for (int i = 0; i < completedModels.size();i++)
 	{
 		completedModels[i].printRobotNames();
+		cout << completedModels[i].getModelCost();
 	}
 }
