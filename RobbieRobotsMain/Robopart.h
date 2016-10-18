@@ -13,6 +13,10 @@ public:
 	double getWeight();
 	string getDescription();
 	double getCost();
+	virtual double getPower();
+	virtual double getSpeed();
+	virtual double getEnergy();
+	virtual int getCompartments();
 protected:
 	string name;
 	int partNumber;
@@ -24,7 +28,7 @@ protected:
 class arm : public roboParts {
 public:
 	void armInitialize();
-	double getPower();
+	 double getPower();
 private:
 	double powerConsumption;
 };

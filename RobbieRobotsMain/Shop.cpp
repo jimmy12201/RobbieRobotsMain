@@ -23,6 +23,10 @@ void shop::MainMenu()
 		{
 			printModels();
 		}
+		else if (input == 4)
+		{
+			createCustomers();
+		}
 		
 	} while (input != 0);
 	
@@ -75,4 +79,13 @@ void shop::printModels() {
 		completedModels[i].printRobotNames();
 		cout << completedModels[i].getModelCost();
 	}
+}
+void shop::createCustomers() {
+	customer TempCustomer;
+	string name;
+	cout << "What is your name?\n";
+	cin.ignore();
+	getline(cin, name);
+	TempCustomer.createCustomer(name);
+	cout << "Welcome Aboard, " << TempCustomer.getName() << "!\n";
 }

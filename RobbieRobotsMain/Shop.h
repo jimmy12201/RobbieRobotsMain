@@ -4,12 +4,15 @@
 #include <vector>
 #include "Robotmodels.h"
 #include "Robopart.h"
+#include "Customers.h"
+#include "Orders.h"
 class shop{
 public:
 	void MainMenu();
 	void createPart();
 	void createModel();
 	void printModels();
+	void createCustomers();
 	
 private:
 	vector<robotModels> completedModels;
@@ -18,5 +21,6 @@ private:
 	vector<head> heads;
 	vector<battery>batteries;
 	vector<locomotor> locomotors;
+	vector<customer> customers;
 };
 #endif

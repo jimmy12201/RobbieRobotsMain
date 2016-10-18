@@ -10,14 +10,14 @@ void robotModels::createRobot( vector<arm>& Arms, vector<torso>& Torsos, vector<
 	unsigned int i,totalParts=0,j,choice;
 	int selection;
 	bool selecting = true;
-torso newTorso;
+	torso newTorso;
 	cout << "Create a New Robot\n-----------------\n\n";
 	//ARM
 	for (j = 1; j <= 2; j++) {
 		selecting = true;
 		while (selecting)
 		{
-			cout << "Select Robot Part: Arm --" << " Part " << j<<"/"<<2<<"\n---------------\n\n";
+			cout << "\nSelect Robot Part: Arm --" << " Part " << j<<"/"<<2<<"\n---------------\n\n";
 			for (i = 1; i < Arms.size()+1; i++)
 			{
 				cout << i << ": " << Arms[i-1].getName() << "\n";
@@ -66,22 +66,33 @@ torso newTorso;
 		selecting = true;
 	}
 	
-
-	/*/Torso
+	//Torso
 	while (selecting)
 	{
-		cout << "Select Robot Part: Torso\n";
-		for (i = 0; i < Torsos.size(); i++)
+		cout << "\nSelect Robot Part: Torso\n---------------\n\n";
+		for (i = 1; i < Torsos.size() + 1; i++)
 		{
-			cout << i << ": " << "Name: " << Torsos[i].getName() << "\n";
+			cout << i << ": " << Torsos[i - 1].getName() << "\n";
+			if (i == Torsos.size()) {
+				cout << i + 1 << "+: Create new Part";
+			}
+
 		}
-		cout << "\nEnter the number cooresponding to the part to choose it, or a higher number to create a new part: ";
+		cout << "\nEnter corresponding number to select part, or 0 to skip ";
 		cin >> selection;
+		selection -= 1;
 
 		if (selection < Torsos.size())
 		{
-			modelParts.push_back(&Torsos[selection]);
-			selecting = false;
+			cout << "\n\nIs This part Correct?\n--------------------\nName: " << Torsos[selection].getName() << "\nWeight: " << Torsos[selection].getWeight() << "\nCost: $" << Torsos[selection].getCost() << "\nBattery Compartments: " << Torsos[selection].getCompartments() << "\nDescription: " << Torsos[selection].getDescription() << "\n";
+			cout << "0: No\n1: Yes\n";
+			cin >> choice;
+			if (choice == 1) {
+				modelParts.push_back(&Torsos[selection]);
+				selecting = false;
+				price += Torsos[selection].getCost();
+			}
+
 		}
 		else
 		{
@@ -91,22 +102,33 @@ torso newTorso;
 	}
 	selecting = true;
 
-
 	//HEAD
 	while (selecting)
 	{
-		cout << "Select Robot Part: Head\n";
-		for (i = 0; i < Heads.size(); i++)
+		cout << "\nSelect Robot Part: Head\n---------------\n\n";
+		for (i = 1; i < Heads.size() + 1; i++)
 		{
-			cout << i << ": " << "Name: " << Heads[i].getName() << "\n";
+			cout << i << ": " << Heads[i - 1].getName() << "\n";
+			if (i == Heads.size()) {
+				cout << i + 1 << "+: Create new Part";
+			}
+
 		}
-		cout << "\nEnter corresponding number to select part";
+		cout << "\nEnter corresponding number to select part, or 0 to skip ";
 		cin >> selection;
+		selection -= 1;
 
 		if (selection < Heads.size())
 		{
-			modelParts.push_back(&Heads[selection]);
-			selecting = false;
+			cout << "\n\nIs This part Correct?\n--------------------\nName: " << Heads[selection].getName() << "\nWeight: " << Heads[selection].getWeight() << "\nCost: $" << Heads[selection].getCost() << "\nDescription: " << Heads[selection].getDescription() << "\n";
+			cout << "0: No\n1: Yes\n";
+			cin >> choice;
+			if (choice == 1) {
+				modelParts.push_back(&Heads[selection]);
+				selecting = false;
+				price += Heads[selection].getCost();
+			}
+
 		}
 		else
 		{
@@ -118,46 +140,88 @@ torso newTorso;
 	selecting = true;
 
 	//Battery
-	while (selecting)
-	{
-		cout << "Select Robot Part: Battery\n";
-		for (i = 0; i < Batteries.size(); i++)
+	bool done = false;
+	for (j = 1; j <= Torsos[Torsos.size() - 1].getCompartments(); j++) {
+		selecting = true;
+		while (selecting && !done)
 		{
-			cout << i << ": " << "Name: " << Batteries[i].getName() << "\n";
-		}
-		cout << "\nEnter the number cooresponding to the part to choose it, or a higher number to create a new part: ";
-		cin >> selection;
+			cout << "\nSelect Robot Part: Battery --" << " Part " << j << "/" << Torsos[Torsos.size() - 1].getCompartments() << "\n---------------\n\n";
+			for (i = 1; i < Batteries.size() + 1; i++)
+			{
+				cout << i << ": " << Batteries[i - 1].getName() << "\n";
+				if (i == Batteries.size()) {
+					cout << i + 1 << "+: Create new Part";
+				}
 
-		if (selection < Batteries.size())
-		{
-			modelParts.push_back(&Batteries[selection]);
-			selecting = false;
+			}
+			cout << "\nEnter corresponding number to select part, or 0 to skip ";
+			cin >> selection;
+			selection -= 1;
+
+			if (selection < Batteries.size())
+			{
+				cout << "\n\nIs This part Correct?\n--------------------\nName: " << Batteries[selection].getName() << "\nWeight: " << Batteries[selection].getWeight() << "\nCost: $" << Batteries[selection].getCost() << "\nEnegry (KW-hours): " << Batteries[selection].getEnergy() << "\nDescription: " << Batteries[selection].getDescription() << "\n";
+				cout << "0: No\n1: Yes\n";
+				cin >> choice;
+				if (choice == 1) {
+					modelParts.push_back(&Batteries[selection]);
+					selecting = false;
+					price += Batteries[selection].getCost();
+				}
+
+			}
+			else if (selection == Batteries.size())
+			{
+				battery newBattery;
+				newBattery.batteryInitialize();
+				Batteries.push_back(newBattery);
+			}
+			else if (selection == -1)
+			{
+				if (j == 1) {
+					cout << "Must have at least one battery.\n";
+				}
+				else
+				{
+					done = true;
+					break;
+				}
+			}
+			else
+			{
+				cout << "Invalid Input. Please try again.\n";
+			}
 		}
-		else
-		{
-			battery newBattery;
-			newBattery.batteryInitialize();
-			Batteries.push_back(newBattery);
-		}
+		selecting = true;
 	}
-	selecting = true;
-
 
 	//LOCOMOTORS
 	while (selecting)
 	{
-		cout << "Select Robot Part: Locomotor\n";
-		for (i = 0; i < Locomotors.size(); i++)
+		cout << "Select Robot Part: Locomotors\n---------------\n\n";
+		for (i = 1; i < Locomotors.size() + 1; i++)
 		{
-			cout << i << ": " << "Name: " << Locomotors[i].getName() << "\n";
+			cout << i << ": " << Locomotors[i - 1].getName() << "\n";
+			if (i == Locomotors.size()) {
+				cout << i + 1 << "+: Create new Part";
+			}
+
 		}
-		cout << "\nEnter the number cooresponding to the part to choose it, or a higher number to create a new part: ";
+		cout << "\nEnter corresponding number to select part, or 0 to skip ";
 		cin >> selection;
+		selection -= 1;
 
 		if (selection < Locomotors.size())
 		{
-			modelParts.push_back(&Locomotors[selection]);
-			selecting = false;
+			cout << "\n\nIs This part Correct?\n--------------------\nName: " << Locomotors[selection].getName() << "\nWeight: " << Locomotors[selection].getWeight() << "\nCost: $" << Locomotors[selection].getCost() << "\nDescription: " <<Locomotors[selection].getDescription() << "\n";
+			cout << "0: No\n1: Yes\n";
+			cin >> choice;
+			if (choice == 1) {
+				modelParts.push_back(&Locomotors[selection]);
+				selecting = false;
+				price += Locomotors[selection].getCost();
+			}
+
 		}
 		else
 		{
@@ -165,14 +229,26 @@ torso newTorso;
 			newLocomotor.locomotorInitialize();
 			Locomotors.push_back(newLocomotor);
 		}
-	}*/
+	}
+	cout << "Almost finished!\n\n";
+	cout << "What is the name of your robot? ";
+	cin.ignore();
+	getline(cin, name);
+	cout << "What is the model number of your robot? ";
+	cin >> modelNumber;
+	cout << "Looks good!\n\nThe total cost to build the robot is $ " << getModelCost()<< "\n";
+	cout << "Finally, what should the price of this model be? ";
+	cin >> price;
+	system("cls");
 }
 void robotModels::printRobotNames() {
 	for (unsigned int i = 0; i < modelParts.size(); i++)
 	{
 		if (typeid(*(modelParts[i])).name() == typeid(arm).name())
 		{
-			cout << "arm\n";
+			cout << "Arm\n";
+			//cout << (*(modelParts[i])).getName();
+			//cout <<"\nPOWER" <<(*(modelParts[i])).getPower() << "\n";
 		}
 		else if ((typeid(*(modelParts[i])).name() == typeid(torso).name()))
 		{

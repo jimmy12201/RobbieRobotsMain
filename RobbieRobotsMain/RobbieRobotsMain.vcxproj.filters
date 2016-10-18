@@ -33,6 +33,12 @@
     <ClInclude Include="Robotmodels.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Orders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Customers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -48,6 +54,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Robotmodels.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Orders.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Customers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

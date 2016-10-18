@@ -149,6 +149,8 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Customers.h" />
+    <ClInclude Include="Orders.h" />
     <ClInclude Include="Robopart.h" />
     <ClInclude Include="Robotmodels.h" />
     <ClInclude Include="Shop.h" />
@@ -156,6 +158,8 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Customers.cpp" />
+    <ClCompile Include="Orders.cpp" />
     <ClCompile Include="RobbieRobotsMain.cpp" />
     <ClCompile Include="Robopart.cpp" />
     <ClCompile Include="Robotmodels.cpp" />

@@ -20,6 +20,7 @@ void roboParts::initializePart() {
 string roboParts::getName() {
 	return name;
 }
+
 int roboParts::getpartNumber()
 {
 	return partNumber;
@@ -33,6 +34,21 @@ double roboParts::getCost() {
 string roboParts::getDescription() {
 	return description;
 } 
+//Virtual functions
+double roboParts::getSpeed()
+{
+	return 0;
+}
+double roboParts::getPower() {
+	return 0;
+}
+double roboParts::getEnergy() {
+	return 0;
+}
+int roboParts::getCompartments()
+{
+	return 0;
+}
 // ARMS
 double arm::getPower() {
 	return powerConsumption;
@@ -56,6 +72,7 @@ void locomotor::locomotorInitialize() {
 	cin >> powerConsumed;
 	cout << "What is the maximum speed of this part (MPH)?:  ";
 	cin >> max_speed;
+
 }
 //BATTERY
 double battery::getEnergy() {
@@ -65,6 +82,13 @@ void battery::batteryInitialize() {
 	initializePart();
 	cout << "How much energy does this part contain (volts)?: ";
 	cin >> energyBattery;
+	cout << "\n";
+	while (energyBattery <= 0)
+	{
+		cout << "Please enter a number larger than 0\n";
+		cout << "How much energy does this part contain (volts)?: ";
+		cin >> energyBattery;
+	}
 }
 //TORSO
 int torso::getCompartments()
@@ -75,6 +99,11 @@ void torso::torsoInitialize() {
 	initializePart();
 	cout << "How many compartments does this part have?:  ";
 	cin >> battery_compartments;
+	while (battery_compartments > 3 || battery_compartments <= 0)
+	{
+		cout << "Error: Torso can only have between 1 and 3 battery compartments\nHow many compartments does this part have?:  ";
+		cin >> battery_compartments;
+	}
 }
 //HEAD
 void head::headInitialize()
