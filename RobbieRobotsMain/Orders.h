@@ -3,18 +3,27 @@
 #define __ORDERS_H 2016
 #include <ctime>
 #include "robotModels.h"
-#include "Shop.h"
+#include "SalesAssociate.h"
+#include "Customers.h"
 class order {
 public:
-	int ub;
-	
+	void createOrder(int orderNumberT, int month, int day, int year, double priceT, double askingPriceT, double location, salesAssociate &salesAssociateOrderT, customer &customerNameOrderT, robotModels &selcetedModelT);
+	void generateBOS();
+	string getRobotName();
+	double getRobotPrice();
+	double getRobotCost();
+	double getRobotTotalPrice();
+	int getYear();
+	int getDay();
+	int getMonth();
+	string getAssociate();
+	string getCustomer();
 private:
-	double orderNumber;
-	string CustomerNameOrder;
-	robotModel selectedModel;
-	time_t time;
-	double price;
-	double shipping;
+	int selection, i, day, month, year, orderNumber;
+	double price, location,askingPrice, overallRobotPrice;
+	customer *customerNameOrder;
+	salesAssociate *salesAssociateOrder;
+	robotModels *selectedModel;
 
 };
 #endif

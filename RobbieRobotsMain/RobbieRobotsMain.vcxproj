@@ -153,6 +153,7 @@
     <ClInclude Include="Orders.h" />
     <ClInclude Include="Robopart.h" />
     <ClInclude Include="Robotmodels.h" />
+    <ClInclude Include="SalesAssociate.h" />
     <ClInclude Include="Shop.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -163,6 +164,7 @@
     <ClCompile Include="RobbieRobotsMain.cpp" />
     <ClCompile Include="Robopart.cpp" />
     <ClCompile Include="Robotmodels.cpp" />
+    <ClCompile Include="SalesAssociate.cpp" />
     <ClCompile Include="Shop.cpp" />
     <ClCompile Include="stdafx.cpp" />
   </ItemGroup>

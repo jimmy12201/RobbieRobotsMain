@@ -78,7 +78,7 @@ void robotModels::createRobot( vector<arm>& Arms, vector<torso>& Torsos, vector<
 			}
 
 		}
-		cout << "\nEnter corresponding number to select part, or 0 to skip ";
+		cout << "\nEnter corresponding number to select part";
 		cin >> selection;
 		selection -= 1;
 
@@ -114,7 +114,7 @@ void robotModels::createRobot( vector<arm>& Arms, vector<torso>& Torsos, vector<
 			}
 
 		}
-		cout << "\nEnter corresponding number to select part, or 0 to skip ";
+		cout << "\nEnter corresponding number to select part";
 		cin >> selection;
 		selection -= 1;
 
@@ -207,7 +207,7 @@ void robotModels::createRobot( vector<arm>& Arms, vector<torso>& Torsos, vector<
 			}
 
 		}
-		cout << "\nEnter corresponding number to select part, or 0 to skip ";
+		cout << "\nEnter corresponding number to select part";
 		cin >> selection;
 		selection -= 1;
 
@@ -236,40 +236,58 @@ void robotModels::createRobot( vector<arm>& Arms, vector<torso>& Torsos, vector<
 	getline(cin, name);
 	cout << "What is the model number of your robot? ";
 	cin >> modelNumber;
+	cout << "Give a short description of the robot: ";
+	cin.ignore();
+	getline(cin, description);
 	cout << "Looks good!\n\nThe total cost to build the robot is $ " << getModelCost()<< "\n";
 	cout << "Finally, what should the price of this model be? ";
-	cin >> price;
+	cin >> askingPrice;
 	system("cls");
 }
-void robotModels::printRobotNames() {
+void robotModels::getRobotData() {
+	cout << "\nRobot Specs By Part\n------------------\n";
 	for (unsigned int i = 0; i < modelParts.size(); i++)
 	{
+		cout <<"Name: " << (*(modelParts[i])).getName() << "\n";
+		cout <<"Part Number: " << (*(modelParts[i])).getpartNumber() << "\n";
+		cout <<"Weight: " << (*(modelParts[i])).getWeight() << " grams\n";
+		cout <<"Cost: $" << (*(modelParts[i])).getCost() << "\n";
+		cout <<"Breif description: " << (*(modelParts[i])).getDescription() << "\n";
+
 		if (typeid(*(modelParts[i])).name() == typeid(arm).name())
 		{
-			cout << "Arm\n";
-			//cout << (*(modelParts[i])).getName();
-			//cout <<"\nPOWER" <<(*(modelParts[i])).getPower() << "\n";
+			cout <<"Power: " <<(*(modelParts[i])).getPower() << " watts\n\n";
 		}
 		else if ((typeid(*(modelParts[i])).name() == typeid(torso).name()))
 		{
-			cout << "torso\n";
+			cout << "Battery Compartments: " << (*(modelParts[i])).getCompartments() << "\n\n";
 		}
 		else if ((typeid(*(modelParts[i])).name() == typeid(head).name()))
 		{
-			cout << "head\n";
+			cout << "\n";
+			//Saving for case of added variable to head
 		}
 		else if ((typeid(*(modelParts[i])).name() == typeid(battery).name()))
 		{
-			cout << "battery\n";
+			cout << "Energy: " << (*(modelParts[i])).getEnergy() << " kWh\n\n";
 		}
 		else if ((typeid(*(modelParts[i])).name() == typeid(locomotor).name()))
 		{
-			cout << "locomotor\n";
+			cout << "Power: " << (*(modelParts[i])).getPower() << " watts\n";
+			cout << "Speed: " << (*(modelParts[i])).getSpeed() << " MPH \n\n";
 		}
 	}
 	
 }
-
+string robotModels::getRobotName() {
+	return name;
+}
+string robotModels::getRobotDescription() {
+	return description;
+}
 double robotModels::getModelCost() {
 	return price;
+}
+double robotModels::getModelAskingPrice() {
+	return askingPrice;
 }

@@ -6,13 +6,20 @@
 #include "Robopart.h"
 #include "Customers.h"
 #include "Orders.h"
+#include "SalesAssociate.h"
 class shop{
 public:
 	void MainMenu();
 	void createPart();
 	void createModel();
-	void printModels();
+	int createOrder();
 	void createCustomers();
+	void createSalesAssociate();
+	void printRobotInfo();
+	void overallSalesReport();
+	void datedSalesReport();
+	void associateReport();
+	void customerReport();
 	
 private:
 	vector<robotModels> completedModels;
@@ -22,5 +29,7 @@ private:
 	vector<battery>batteries;
 	vector<locomotor> locomotors;
 	vector<customer> customers;
+	vector<salesAssociate> associates;
+	vector<order> orders;
 };
 #endif
