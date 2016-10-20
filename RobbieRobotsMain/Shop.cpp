@@ -8,49 +8,66 @@ void shop::MainMenu()
 {
 	int input;
 	do{
-		//cout << "Main Menu\n---------------\n1. Create\nChoice Number:   \n";
-		// << "Create...\n---------------\n1. Order\n2. Customer\n3. Sales Associate\n4. Robot Model\n5. Robot Component\n6. Quit to Main Menu\n";
-		cout << "enter 1 to enter part, 2 to create model, 3 print modle names, \n4 create customers, 5 create Associates, 6 browse robots ";
+		cout << "\nMain Menu\n---------------\n1. Create\n2. Report\n3. Display Created Models\n4. Quit\nChoice Number:   \n";
 		cin >> input;
 		if (input == 1)
 		{
-			createPart();
+			cout << "Create...\n---------------\n1. Customer\n2. Sales Associate\n3. Robot Model\n4. Robot Component\n5. Order\n0. Quit to Main Menu\n";
+			cin >> input;
+			if (input == 1)
+			{
+				createCustomers();
+			}
+			else if (input == 2)
+			{
+				createSalesAssociate();
+			}
+			else if (input == 3)
+			{
+				createModel();
+			}
+			else if (input == 4)
+			{
+				createPart();
+			}
+			else if (input == 5)
+			{
+				createOrder();
+			}
+			else
+			{
+				input = 1;
+			}
+
 		}
 		else if (input == 2)
 		{
-			createModel();
+			cout << "Report...\n---------------\n1. Customer Billing\n2. Sales Associate\n3. Sales Report by Date\n4. Overall Report\n0. Quit to Main Menu\n";
+			cin >> input;
+			if (input == 1)
+			{
+				customerReport();
+			}
+			else if (input == 2)
+			{
+				associateReport();
+			}
+			else if (input == 3)
+			{
+				datedSalesReport();
+			}
+			else if (input == 4)
+			{
+				overallSalesReport();
+			}
+			else
+			{
+				input = 1;
+			}
 		}
 		else if (input == 3)
 		{
 			printRobotInfo();
-		}
-		else if (input == 4)
-		{
-			createCustomers();
-		}
-		else if (input == 5)
-		{
-			createSalesAssociate();
-		}
-		else if (input == 6)
-		{
-			createOrder();
-		}
-		else if (input == 7)
-		{
-			overallSalesReport();
-		}
-		else if (input == 8)
-		{
-			datedSalesReport();
-		}
-		else if (input == 9)
-		{
-			associateReport();
-		}
-		else if (input == 10)
-		{
-			customerReport();
 		}
 	} while (input != 0);
 	

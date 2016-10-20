@@ -21,11 +21,9 @@ void robotModels::createRobot( vector<arm>& Arms, vector<torso>& Torsos, vector<
 			for (i = 1; i < Arms.size()+1; i++)
 			{
 				cout << i << ": " << Arms[i-1].getName() << "\n";
-				if (i == Arms.size()) {
-					cout << i+1 << "+: Create new Part";
-				}
 
 			}
+			cout << i << ": Create new Part";
 			cout << "\nEnter corresponding number to select part, or 0 to skip ";
 			cin >> selection;
 			selection -= 1;
@@ -73,12 +71,10 @@ void robotModels::createRobot( vector<arm>& Arms, vector<torso>& Torsos, vector<
 		for (i = 1; i < Torsos.size() + 1; i++)
 		{
 			cout << i << ": " << Torsos[i - 1].getName() << "\n";
-			if (i == Torsos.size()) {
-				cout << i + 1 << "+: Create new Part";
-			}
 
 		}
-		cout << "\nEnter corresponding number to select part";
+		cout << i  << ": Create new Part";
+		cout << "\nEnter corresponding number to select part: ";
 		cin >> selection;
 		selection -= 1;
 
@@ -109,12 +105,10 @@ void robotModels::createRobot( vector<arm>& Arms, vector<torso>& Torsos, vector<
 		for (i = 1; i < Heads.size() + 1; i++)
 		{
 			cout << i << ": " << Heads[i - 1].getName() << "\n";
-			if (i == Heads.size()) {
-				cout << i + 1 << "+: Create new Part";
-			}
 
 		}
-		cout << "\nEnter corresponding number to select part";
+		cout << i << ": Create new Part";
+		cout << "\nEnter corresponding number to select part: ";
 		cin >> selection;
 		selection -= 1;
 
@@ -149,11 +143,9 @@ void robotModels::createRobot( vector<arm>& Arms, vector<torso>& Torsos, vector<
 			for (i = 1; i < Batteries.size() + 1; i++)
 			{
 				cout << i << ": " << Batteries[i - 1].getName() << "\n";
-				if (i == Batteries.size()) {
-					cout << i + 1 << "+: Create new Part";
-				}
 
 			}
+			cout << i << ": Create new Part";
 			cout << "\nEnter corresponding number to select part, or 0 to skip ";
 			cin >> selection;
 			selection -= 1;
@@ -202,12 +194,10 @@ void robotModels::createRobot( vector<arm>& Arms, vector<torso>& Torsos, vector<
 		for (i = 1; i < Locomotors.size() + 1; i++)
 		{
 			cout << i << ": " << Locomotors[i - 1].getName() << "\n";
-			if (i == Locomotors.size()) {
-				cout << i + 1 << "+: Create new Part";
-			}
 
 		}
-		cout << "\nEnter corresponding number to select part";
+		cout << i  << ": Create new Part";
+		cout << "\nEnter corresponding number to select part, or 0 to skip ";
 		cin >> selection;
 		selection -= 1;
 
