@@ -8,7 +8,7 @@ void shop::MainMenu()
 {
 	int input;
 	do{
-		cout << "\nMain Menu\n---------------\n1. Create\n2. Report\n3. Display Created Models\n4. Quit\nChoice Number:   \n";
+		cout << "\nMain Menu\n---------------\n1. Create\n2. Report\n3. Display Created Models\n0. Quit\nChoice Number:   \n";
 		cin >> input;
 		if (input == 1)
 		{

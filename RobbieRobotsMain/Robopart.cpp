@@ -13,7 +13,7 @@ void roboParts::initializePart() {
 	cin >> weight;
 	cout << "\nPart cost? ($): ";
 	cin >> cost;
-	cout << "\nPlease give a breif description of the part: \n";
+	cout << "\nPlease give a brief description of the part: \n";
 	cin.ignore();
 	getline(cin, description);
 }
