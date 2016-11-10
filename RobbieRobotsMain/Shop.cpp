@@ -119,7 +119,7 @@ void shop::printRobotInfo() {
 	for (int i = 0; i < completedModels.size();i++)
 	{
 		cout << "Model " << i+1 <<"\n---------------------\nName: "<< completedModels[i].getRobotName() <<"\n";
-		cout <<"Robot Cost: $"<< completedModels[i].getModelCost() << "\n";
+		cout <<"Robot Cost: $"<< completedModels[i].getModelAskingPrice() << "\n";
 		cout << "'" << completedModels[i].getRobotDescription() << "'\n\n";
 	}
 }
