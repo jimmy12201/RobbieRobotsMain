@@ -4,74 +4,8 @@
 #include <vector>
 #include <iomanip>
 using namespace std;
-void shop::MainMenu()
-{
-	int input;
-	do{
-		cout << "\nMain Menu\n---------------\n1. Create\n2. Report\n3. Display Created Models\n0. Quit\nChoice Number:   \n";
-		cin >> input;
-		if (input == 1)
-		{
-			cout << "Create...\n---------------\n1. Customer\n2. Sales Associate\n3. Robot Model\n4. Robot Component\n5. Order\n0. Quit to Main Menu\n";
-			cin >> input;
-			if (input == 1)
-			{
-				createCustomers();
-			}
-			else if (input == 2)
-			{
-				createSalesAssociate();
-			}
-			else if (input == 3)
-			{
-				createModel();
-			}
-			else if (input == 4)
-			{
-				createPart();
-			}
-			else if (input == 5)
-			{
-				createOrder();
-			}
-			else
-			{
-				input = 1;
-			}
 
-		}
-		else if (input == 2)
-		{
-			cout << "Report...\n---------------\n1. Customer Billing\n2. Sales Associate\n3. Sales Report by Date\n4. Overall Report\n0. Quit to Main Menu\n";
-			cin >> input;
-			if (input == 1)
-			{
-				customerReport();
-			}
-			else if (input == 2)
-			{
-				associateReport();
-			}
-			else if (input == 3)
-			{
-				datedSalesReport();
-			}
-			else if (input == 4)
-			{
-				overallSalesReport();
-			}
-			else
-			{
-				input = 1;
-			}
-		}
-		else if (input == 3)
-		{
-			printRobotInfo();
-		}
-	} while (input != 0);
-	
-}
+
 void shop::createPart()
 {
 	cout << "Create...Robot Component...\n---------------\n";
@@ -209,25 +143,15 @@ int shop::createOrder() {
 	return 1;
 
 }
-void shop::createCustomers() {
+void shop::createCustomers(string name) {
 	customer TempCustomer;
-	string name;
-	cout << "What is your name?\n";
-	cin.ignore();
-	getline(cin, name);
 	TempCustomer.createCustomer(name);
-	cout << "Welcome Aboard, " << TempCustomer.getName() << "!\n";
 	customers.push_back(TempCustomer);
 
 }
-void shop::createSalesAssociate() {
+void shop::createSalesAssociate(string name) {
 	salesAssociate TempAssociate;
-	string name;
-	cout << "What is your name?\n";
-	cin.ignore();
-	getline(cin, name);
 	TempAssociate.createAssociate(name);
-	cout << "Welcome To The Team, " << TempAssociate.getAssociateName() << "!\n";
 	associates.push_back(TempAssociate);
 }
 void shop::overallSalesReport()
@@ -361,4 +285,11 @@ bool found = false;
 	{
 		cout << "The total bill is: $"<< setprecision(2)<< bill<<"\nThank You for shopping at The Robbie Robot Shop!\n\n";
 	}
+}
+void shop::printinfo() {
+	int i = 0;
+	for (i = 0; i < associates.size(); i++) {
+		cout << associates[i].getAssociateName() << endl;
+	}
+	cout << "\n";
 }

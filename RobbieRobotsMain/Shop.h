@@ -2,6 +2,7 @@
 #ifndef __SHOP_H
 #define __SHOP_H 2016
 #include <vector>
+#include <iostream>
 #include "Robotmodels.h"
 #include "Robopart.h"
 #include "Customers.h"
@@ -9,17 +10,17 @@
 #include "SalesAssociate.h"
 class shop{
 public:
-	void MainMenu();
 	void createPart();
 	void createModel();
 	int createOrder();
-	void createCustomers();
-	void createSalesAssociate();
+	void createCustomers(string name);
+	void createSalesAssociate(string name);
 	void printRobotInfo();
 	void overallSalesReport();
 	void datedSalesReport();
 	void associateReport();
 	void customerReport();
+	void printinfo(); //TO BE REMOVED
 	
 private:
 	vector<robotModels> completedModels;
