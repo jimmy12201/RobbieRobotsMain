@@ -6,37 +6,33 @@
 using namespace std;
 
 
-void shop::createPart()
+void shop::createPart(string &part_number, string &name, int &type, double &weight, double &cost, string &description, int &power, int &speed, int &energy, int &compartments)
 {
-	cout << "Create...Robot Component...\n---------------\n";
-	cout << "What part are you creating?\n1. Arm\n2. Battery\n3. Head\n4. Torso\n5. Locomotor\n";
-	int partType;
-	cin >> partType;
-	if (partType == 1)
+	if (type == 1)
 	{
 		arm part;
 		part.armInitialize();
 		arms.push_back(part);
 	}
-	if (partType == 2)
+	if (type == 2)
 	{
 		battery part;
 		part.batteryInitialize();
 		batteries.push_back(part);
 	}
-	if (partType == 3)
+	if (type == 3)
 	{
 		head part;
 		part.headInitialize();
 		heads.push_back(part);
 	}
-	if (partType == 4)
+	if (type == 4)
 	{
 		torso part;
 		part.torsoInitialize();
 		torsos.push_back(part);
 	}
-	if (partType == 5)
+	if (type == 5)
 	{
 		locomotor part;
 		part.locomotorInitialize();

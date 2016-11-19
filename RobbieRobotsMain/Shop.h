@@ -10,7 +10,7 @@
 #include "SalesAssociate.h"
 class shop{
 public:
-	void createPart();
+	void createPart(string &part_number, string &name, int &type, double &weight, double &cost, string &description, int &power ,int &speed, int &energy, int &compartments);
 	void createModel();
 	int createOrder();
 	void createCustomers(string name);
