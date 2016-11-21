@@ -7,7 +7,14 @@ using namespace std;
 
 class roboParts{
 public:
-	virtual void initializePart();
+	roboParts(string nameS, int partNumberS, double weightS, double costS, string descriptionS)
+	{
+		name = nameS;
+		partNumber = partNumberS;
+		weight = weightS;
+		description = descriptionS;
+		cost = costS;
+	}
 	string getName();
 	int getpartNumber();
 	double getWeight();
@@ -27,7 +34,10 @@ protected:
 
 class arm : public roboParts {
 public:
-	void armInitialize();
+	arm(string nameS, int partNumberS, double weightS, double costS, string descriptionS, double power) : roboParts(nameS, partNumberS, weightS, costS, descriptionS)
+	{
+		powerConsumption = power;
+	}
 	 double getPower();
 private:
 	double powerConsumption;
@@ -35,13 +45,18 @@ private:
 
 class head : public roboParts {
 public:
-	void headInitialize();
+	head(string nameS, int partNumberS, double weightS, double costS, string descriptionS) : roboParts(nameS,partNumberS,weightS,costS,descriptionS)
+	{}
 private:
 };
 
 class locomotor : public roboParts {
 public:
-	void locomotorInitialize();
+	locomotor(string nameS, int partNumberS, double weightS, double costS, string descriptionS, double power, double speed) : roboParts(nameS, partNumberS, weightS, costS, descriptionS)
+	{
+		powerConsumed = power;
+		max_speed = speed;
+	}
 	double getSpeed();
 	double getPower();
 private:
@@ -51,7 +66,10 @@ private:
 
 class battery : public roboParts {
 public:
-	void batteryInitialize();
+	battery(string nameS, int partNumberS, double weightS, double costS, string descriptionS, double energy) : roboParts(nameS, partNumberS, weightS, costS, descriptionS)
+	{
+		energyBattery = energy;
+	}
 	double getEnergy();
 private:
 	double energyBattery;
@@ -59,7 +77,10 @@ private:
 
 class torso : public roboParts {
 public:
-	void torsoInitialize();
+	torso(string nameS, int partNumberS, double weightS, double costS, string descriptionS, int compartments) : roboParts(nameS, partNumberS, weightS, costS, descriptionS)
+	{
+		battery_compartments = compartments;
+	}
 	int getCompartments();
 private:
 	int battery_compartments;

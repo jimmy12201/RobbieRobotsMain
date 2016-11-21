@@ -5,9 +5,40 @@
 #include <string>
 using namespace std;
 
-void robotModels::createRobot( vector<arm>& Arms, vector<torso>& Torsos, vector<head>& Heads, vector<battery>& Batteries, vector<locomotor>& Locomotors)
+void robotModels::createRobot(string name1, string cost1, string modelNumber1, string description1, int arm1, int arm2, int battery1, int battery2, int battery3, int head1, int torso1, int locomotor1, vector<arm>& Arms, vector<torso>& Torsos, vector<head>& Heads, vector<battery>& Batteries, vector<locomotor>& Locomotors)
 {
-	unsigned int i,totalParts=0,j,choice;
+	name = name1;
+	modelNumber = modelNumber1;
+	askingPrice = stof(cost1);
+	description = description1;
+
+	
+	modelParts.push_back(&Arms[arm1]);
+	if (arm2 >= 0){
+			modelParts.push_back(&Arms[arm2]);
+	}
+
+	modelParts.push_back(&Torsos[torso1]);
+	modelParts.push_back(&Heads[head1]);
+	modelParts.push_back(&Locomotors[locomotor1]);
+
+	modelParts.push_back(&Batteries[battery1]);
+	if (battery2 >= 0){
+		modelParts.push_back(&Batteries[battery2]);
+	}
+
+	if (battery3 >= 0){
+		modelParts.push_back(&Batteries[battery3]);
+	}
+
+	for (int i = 0; i < modelParts.size(); i++){
+		cout << modelParts[i]->getName() << endl;
+	}
+
+
+
+
+	/*unsigned int i,totalParts=0,j,choice;
 	int selection;
 	bool selecting = true;
 	torso newTorso;
@@ -232,7 +263,7 @@ void robotModels::createRobot( vector<arm>& Arms, vector<torso>& Torsos, vector<
 	cout << "Looks good!\n\nThe total cost to build the robot is $ " << getModelCost()<< "\n";
 	cout << "Finally, what should the price of this model be? ";
 	cin >> askingPrice;
-	system("cls");
+	system("cls");*/
 }
 void robotModels::getRobotData() {
 	cout << "\nRobot Specs By Part\n------------------\n";

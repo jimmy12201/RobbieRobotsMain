@@ -6,43 +6,43 @@
 using namespace std;
 
 
-void shop::createPart(string &part_number, string &name, int &type, double &weight, double &cost, string &description, int &power, int &speed, int &energy, int &compartments)
+void shop::createPart(int part_number, string name, int type, double weight, double cost, string description, int power, int speed, int energy, int compartments)
 {
+	
+	if (type == 0)
+	{
+		arm part(name, part_number, weight, cost, description, power);
+		arms.push_back(part);
+	}
 	if (type == 1)
 	{
-		arm part;
-		part.armInitialize();
-		arms.push_back(part);
+		battery part(name, part_number, weight, cost, description, energy);
+		batteries.push_back(part);
 	}
 	if (type == 2)
 	{
-		battery part;
-		part.batteryInitialize();
-		batteries.push_back(part);
+		head part(name, part_number, weight, cost, description);
+		heads.push_back(part);
 	}
 	if (type == 3)
 	{
-		head part;
-		part.headInitialize();
-		heads.push_back(part);
+		torso part(name, part_number, weight, cost, description, compartments);
+		torsos.push_back(part);
 	}
 	if (type == 4)
 	{
-		torso part;
-		part.torsoInitialize();
-		torsos.push_back(part);
-	}
-	if (type == 5)
-	{
-		locomotor part;
-		part.locomotorInitialize();
+		locomotor part(name, part_number, weight, cost, description, power, speed);
 		locomotors.push_back(part);
 	}
 }
-void shop::createModel() {
+void shop::createModel(string name1, string cost1, string modelNumber1, string description1, int arm1, int arm2, int battery1, int battery2, int battery3, int head1, int torso1, int locomotor1) {
 	robotModels TempModel;
-	TempModel.createRobot(arms,torsos,heads,batteries,locomotors);
+	TempModel.createRobot(name1, cost1, modelNumber1, description1, arm1, arm2, battery1, battery2, battery3, head1, torso1, locomotor1,arms,torsos,heads,batteries,locomotors);
 	completedModels.push_back(TempModel);
+	for (int i = 0; i < completedModels.size(); i++)
+	{
+		completedModels[i].getRobotData();
+	}
 }
 void shop::printRobotInfo() {
 	system("cls");
@@ -282,10 +282,67 @@ bool found = false;
 		cout << "The total bill is: $"<< setprecision(2)<< bill<<"\nThank You for shopping at The Robbie Robot Shop!\n\n";
 	}
 }
-void shop::printinfo() {
+void shop::printinfoBatteries() {
 	int i = 0;
-	for (i = 0; i < associates.size(); i++) {
-		cout << associates[i].getAssociateName() << endl;
+	cout << "Batteries: \n";
+	for (i = 0; i < batteries.size(); i++) {
+		cout << batteries[i].getName() << endl;
+		cout << batteries[i].getpartNumber() << endl;
+		cout << batteries[i].getWeight() << endl;
+		cout << batteries[i].getCost() << endl;
+		cout << batteries[i].getDescription() << endl;
+		cout << batteries[i].getEnergy() << endl << endl;
+	}
+	cout << "\n";
+}
+void shop::printinfoArms() {
+	int i = 0;
+	cout << "Arms: \n";
+	for (i = 0; i < arms.size(); i++) {
+		cout << arms[i].getName() << endl;
+		cout << arms[i].getpartNumber() << endl;
+		cout << arms[i].getWeight() << endl;
+		cout << arms[i].getCost() << endl;
+		cout << arms[i].getDescription() << endl;
+		cout << arms[i].getPower() << endl << endl;
+	}
+	cout << "\n";
+}
+void shop::printinfoHeads() {
+	int i = 0;
+	cout << "Heads: \n";
+	for (i = 0; i < heads.size(); i++) {
+		cout << heads[i].getName() << endl;
+		cout << heads[i].getpartNumber() << endl;
+		cout << heads[i].getWeight() << endl;
+		cout << heads[i].getCost() << endl;
+		cout << heads[i].getDescription() << endl;
+	}
+	cout << "\n";
+}
+void shop::printinfoLocomotors() {
+	int i = 0;
+	cout << "locomotors: \n";
+	for (i = 0; i < locomotors.size(); i++) {
+		cout << locomotors[i].getName() << endl;
+		cout << locomotors[i].getpartNumber() << endl;
+		cout << locomotors[i].getWeight() << endl;
+		cout << locomotors[i].getCost() << endl;
+		cout << locomotors[i].getDescription() << endl;
+		cout << locomotors[i].getPower() << endl;
+		cout << locomotors[i].getSpeed() << endl << endl;
+	}
+	cout << "\n";
+}
+void shop::printinfoTorsos() {
+	int i = 0;
+	cout << "Torsos: \n";
+	for (i = 0; i < torsos.size(); i++) {
+		cout << torsos[i].getName() << endl;
+		cout << torsos[i].getpartNumber() << endl;
+		cout << torsos[i].getWeight() << endl;
+		cout << torsos[i].getCost() << endl;
+		cout << torsos[i].getCompartments() << endl;
 	}
 	cout << "\n";
 }

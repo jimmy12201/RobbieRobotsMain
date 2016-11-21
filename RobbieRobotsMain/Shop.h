@@ -10,8 +10,9 @@
 #include "SalesAssociate.h"
 class shop{
 public:
-	void createPart(string &part_number, string &name, int &type, double &weight, double &cost, string &description, int &power ,int &speed, int &energy, int &compartments);
-	void createModel();
+	friend class roboModelsGUI;
+	void createPart(int part_number, string name, int type, double weight, double cost, string description, int power ,int speed, int energy, int compartments);
+	void createModel(string name, string cost, string modelNumber, string description, int arm1, int arm2, int battery1, int battery2, int battery3, int head, int torso, int locomotor);
 	int createOrder();
 	void createCustomers(string name);
 	void createSalesAssociate(string name);
@@ -20,7 +21,12 @@ public:
 	void datedSalesReport();
 	void associateReport();
 	void customerReport();
-	void printinfo(); //TO BE REMOVED
+	void printinfoHeads(); //TO BE REMOVED
+	void printinfoTorsos();
+	void printinfoLocomotors();
+	void printinfoBatteries();
+	void printinfoArms();
+
 	
 private:
 	vector<robotModels> completedModels;
