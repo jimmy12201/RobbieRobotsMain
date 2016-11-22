@@ -7,7 +7,7 @@
 #include "Customers.h"
 class order {
 public:
-	void createOrder(int orderNumberT, int month, int day, int year, double priceT, double askingPriceT, double location, salesAssociate &salesAssociateOrderT, customer &customerNameOrderT, robotModels &selcetedModelT);
+	void createOrder(int orderNumber, int month, int day, int year, double askingPrice, salesAssociate &salesAssociateOrderT, customer &customerNameOrderT, robotModels &selcetedModelT);
 	void generateBOS();
 	string getRobotName();
 	double getRobotPrice();

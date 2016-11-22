@@ -39,10 +39,6 @@ void shop::createModel(string name1, string cost1, string modelNumber1, string d
 	robotModels TempModel;
 	TempModel.createRobot(name1, cost1, modelNumber1, description1, arm1, arm2, battery1, battery2, battery3, head1, torso1, locomotor1,arms,torsos,heads,batteries,locomotors);
 	completedModels.push_back(TempModel);
-	for (int i = 0; i < completedModels.size(); i++)
-	{
-		completedModels[i].getRobotData();
-	}
 }
 void shop::printRobotInfo() {
 	system("cls");
@@ -53,101 +49,24 @@ void shop::printRobotInfo() {
 		cout << "'" << completedModels[i].getRobotDescription() << "'\n\n";
 	}
 }
-int shop::createOrder() {
-	int selection, i, day, month, year;
-	double orderNumberT, priceT, location;
-	customer *customerNameOrderT;
-	salesAssociate *salesAssociateOrderT;
-	robotModels *selectedModelT;
+
+int shop::createOrder(int orderNumber, int month, int day, int year, double askingPrice, int associate, int customer, int model){
+
 	order OrderTemp;
-
-	//Robot Model
-	printRobotInfo();
-	cout << "What Robot would You like to take home today? Enter the Robot Model Number: ";
-	cin >> selection;
-	selection -= 1;
-	if (selection > completedModels.size() - 1 || selection <0)
-	{
-		cout << "Invalid Input, returning to menu\n\n";
-		return 0;
-	}
-	selectedModelT = &completedModels[selection];
-	selectedModelT->getRobotData();
-	//Sales Associate
-	cout << "\n";
-	for (i = 0; i < associates.size(); i++)
-	{
-		cout << i + 1 << ". " << associates[i].getAssociateName() << "\n";
-	}
-	cout << "\nPlease select the associate who helped you today: ";
-	cin >> selection;
-	selection -= 1;
-	if (selection > associates.size()-1 || selection <0)
-	{
-		cout << "Invalid Input, returning to menu\n\n";
-		return 0;
-	}
-	salesAssociateOrderT = &associates[selection];
-
-	//Customer 
-	cout << "\n";
-	for (i = 0; i < customers.size(); i++)
-	{
-		cout << i + 1 << ". " << customers[i].getName() << "\n";
-	}
-	cout << "\nPlease select your name: ";
-	cin >> selection;
-	selection -= 1;
-	if (selection > customers.size() - 1 || selection <0)
-	{
-		cout << "\nInvalid Input, returning to menu\n\n";
-		return 0;
-	}
-	customerNameOrderT = &customers[selection];
-	bool incorrect = true;
-	while (incorrect)
-	{
-		cout << "Date:(enter only numbers) \nEnter the number of the Month: ";
-		cin >> month;
-		cout << "\nEnter the Day: ";
-		cin >> day;
-		cout << "\nEnter the Year: ";
-		cin >> year;
-		if (day > 31 || day < 1 || year < 1950 || month > 12 || month < 1)//rudimentary validation check, not perfect
-		{
-			cout << "Please enter a valid date.\n";
-		}
-		else
-		{
-			incorrect = false;
-		}
-	}
-	cout << "\nPlease enter the distance in miles of how far your location is for the Robbie Robots Shop: ";
-	cin >> location;
-	cout << "\nWhat is the order number?: ";
-	cin >> orderNumberT;
-	cout << "\nDoes this information look correct?";
-	OrderTemp.createOrder(orderNumberT, month, day, year, selectedModelT->getModelCost(),selectedModelT->getModelAskingPrice(), location, *salesAssociateOrderT, *customerNameOrderT, *selectedModelT);
-	OrderTemp.generateBOS();
-	cout << "Confirm Order?\n0: No\n1: Yes: ";
-	cin >> selection;
-	if (selection == 1)
-	{
+	OrderTemp.createOrder(orderNumber, month, day, year, askingPrice, associates[associate], customers[customer], completedModels[model]);
 		orders.push_back(OrderTemp);
-		cout << "Order added!\n";
-	}
-	return 1;
+		return 1;
 
 }
-void shop::createCustomers(string name) {
+void shop::createCustomers(string name, string address, string phone, string email) {
 	customer TempCustomer;
-	TempCustomer.createCustomer(name);
+	TempCustomer.createCustomer(name, address, phone, email);
 	customers.push_back(TempCustomer);
 
 }
-void shop::createSalesAssociate(string name) {
+void shop::createSalesAssociate(string name, string number) {
 	salesAssociate TempAssociate;
-	TempAssociate.createAssociate(name);
+	TempAssociate.createAssociate(name, number);
 	associates.push_back(TempAssociate);
 }
 void shop::overallSalesReport()
@@ -229,7 +148,7 @@ void shop::datedSalesReport()
 
 }
 void shop::associateReport() {
-	int profit=0,i,robotNumber=0;
+	double profit=0,i,robotNumber=0;
 	string Name;
 	cout << "Please enter your Name: ";
 	cin.ignore();
@@ -311,12 +230,8 @@ void shop::printinfoArms() {
 void shop::printinfoHeads() {
 	int i = 0;
 	cout << "Heads: \n";
-	for (i = 0; i < heads.size(); i++) {
-		cout << heads[i].getName() << endl;
-		cout << heads[i].getpartNumber() << endl;
-		cout << heads[i].getWeight() << endl;
-		cout << heads[i].getCost() << endl;
-		cout << heads[i].getDescription() << endl;
+	for (i = 0; i < customers.size(); i++) {
+		cout << customers[i].getName() << endl;
 	}
 	cout << "\n";
 }

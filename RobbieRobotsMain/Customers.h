@@ -7,10 +7,13 @@
 using namespace std;
 class customer {
 public:
-	void createCustomer(string name);
+	void createCustomer(string name, string address, string phone, string email);
 	string getName();
 
 private:
 	string customerName;
+	string customerAddress;
+	string customerPhoneNumber;
+	string customerEmail;
 };
 #endif

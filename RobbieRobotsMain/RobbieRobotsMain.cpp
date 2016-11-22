@@ -1,12 +1,17 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Menu_Bar.H>
 #include <FL/Fl_Input.H>
 #include <FL/Fl_Multiline_Input.H>
+#include <FL/Fl_Multiline_Output.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Return_Button.H>
 #include <FL/Fl_Radio_Button.H>
 #include <FL/Fl_Choice.H>
+#include <FL/Fl_File_Chooser.H>
+#include <FL/Fl_PNG_Image.H>
+#include <FL/Fl_Output.H>
 #include <iostream>
 #include <string>
 #include "Shop.h"
@@ -16,7 +21,7 @@ using namespace std;
 shop Shop;
 
 //
-// Declarations (we'll define later, just need to declare some variables!)
+// Declarations
 //
 class customerGUI;
 void createCustomerGUI(Fl_Widget* w, void* p);
@@ -39,6 +44,16 @@ void createModelsGUI(Fl_Widget* w, void* p);
 void cancelModel(Fl_Widget* w, void* p);
 void createModelCB(Fl_Widget* w, void* p);
 void batteryLimitCB(Fl_Widget* w, void* p);
+void getPrice(Fl_Widget* w, void* p);
+
+class orderCreateGUI;
+void createOrderGUI(Fl_Widget* w, void* p);
+void cancelOrder(Fl_Widget* w, void* p);
+void createOrderCB(Fl_Widget* w, void* p);
+void getRobotInfoCB(Fl_Widget* w, void* p);
+
+
+
 
 
 
@@ -53,6 +68,7 @@ customerGUI *customerGUIP; // The dialog of interest!
 salesAssociateGUI *salesAssociateGUIP;
 roboPartsGUI *roboPartsGUIP;
 roboModelsGUI *roboModelsGUIP;
+orderCreateGUI *orderCreateGUIP;
 
 //CUSTOMER GUI
 
@@ -61,8 +77,17 @@ public:
 	customerGUI() {
 		dialog = new Fl_Window(340, 270, "New Customer");
 
-		rp_name = new Fl_Input(120, 10, 210, 25, "Name:");
+		rp_name = new Fl_Input(100, 10, 210, 25, "Name:");
 		rp_name->align(FL_ALIGN_LEFT);
+
+		rp_address = new Fl_Input(100, 40, 210, 25, "Address");
+		rp_address->align(FL_ALIGN_LEFT);
+
+		rp_phone_number = new Fl_Input(100, 70, 210, 25, "Phone");
+		rp_phone_number->align(FL_ALIGN_LEFT);
+
+		rp_email = new Fl_Input(100, 100, 210, 25, "Email");
+		rp_email->align(FL_ALIGN_LEFT);
 
 		rp_create = new Fl_Return_Button(145, 240, 120, 25, "Create");
 		rp_create->callback((Fl_Callback *)createCustomerCB, 0);
@@ -77,10 +102,16 @@ public:
 	void show() { dialog->show(); }
 	void hide() { dialog->hide(); }
 	string name() { return rp_name->value(); }
+	string phoneNumber() { return rp_phone_number->value(); }
+	string address() { return rp_address->value(); }
+	string email() { return rp_email->value(); }
 
 private:
 	Fl_Window *dialog;
 	Fl_Input *rp_name;
+	Fl_Input *rp_phone_number;
+	Fl_Input *rp_address;
+	Fl_Input *rp_email;
 	Fl_Return_Button *rp_create;
 	Fl_Button *rp_cancel;
 };
@@ -91,6 +122,9 @@ public:
 
 		rp_name = new Fl_Input(120, 10, 210, 25, "Name:");
 		rp_name->align(FL_ALIGN_LEFT);
+
+		rp_employee_number = new Fl_Input(120, 40, 210, 25, "Employee ID:");
+		rp_employee_number->align(FL_ALIGN_LEFT);
 
 		rp_create = new Fl_Return_Button(145, 240, 120, 25, "Create");
 		rp_create->callback((Fl_Callback *)createSalesAccociateCB, 0);
@@ -105,10 +139,12 @@ public:
 	void show() { dialog->show(); }
 	void hide() { dialog->hide(); }
 	string name() { return rp_name->value(); }
+	string employeeNumber() { return rp_employee_number->value(); }
 
 private:
 	Fl_Window *dialog;
 	Fl_Input *rp_name;
+	Fl_Input *rp_employee_number;
 	Fl_Return_Button *rp_create;
 	Fl_Button *rp_cancel;
 };
@@ -213,7 +249,7 @@ private:
 class roboModelsGUI {
 public:
 	roboModelsGUI() {
-		int x = 400, y = 500, i;
+		int x = 450, y = 500, i;
 		dialog = new Fl_Window(x, y, "Robot Part");
 
 		rp_name = new Fl_Input(120, 10, 210, 25, "Model Name:");
@@ -238,16 +274,22 @@ public:
 		rp_batteries3 = new Fl_Choice(120, 280, 210, 25, "Battery 3");
 		rp_batteries3->add("None");
 
-		rp_cost = new Fl_Input(120, 340, 210, 25, "Cost:");
+		rp_cost = new Fl_Input(120, 340, 210, 25, "Set Price:");
 		rp_cost->align(FL_ALIGN_LEFT);
 
 		rp_description = new Fl_Multiline_Input(120, 370, 210, 75, "Description:");
 		rp_description->align(FL_ALIGN_LEFT);
 
-		rp_create = new Fl_Return_Button(145, 450, 120, 25, "Create");
+		rp_costBtn = new Fl_Button(120, 310, 120, 25, "Get Cost");
+		rp_costBtn->callback((Fl_Callback *)getPrice, 0);
+
+		rp_costReturn = new Fl_Output(250, 310, 70, 25);
+
+
+		rp_create = new Fl_Return_Button(200, 450, 120, 25, "Create");
 		rp_create->callback((Fl_Callback *)createModelCB, 0);
 
-		rp_cancel = new Fl_Button(270, 450, 60, 25, "Cancel");
+		rp_cancel = new Fl_Button(150, 450, 60, 25, "Cancel");
 		rp_cancel->callback((Fl_Callback *)cancelModel, 0);
 
 		dialog->end();
@@ -262,6 +304,8 @@ public:
 	void showBattery3() { rp_batteries3->show(); }
 	void hideBattery3() { rp_batteries3->hide(); }
 
+	void getCost() {}
+
 	int arm1() { return rp_arm1->value(); }
 	int arm2() { return rp_arm2->value(); }
 	int torso() { return rp_torso->value(); }
@@ -270,6 +314,10 @@ public:
 	int battery3() { return rp_batteries3->value(); }
 	int locomotor() { return rp_locomotor->value(); }
 	int head() { return rp_head -> value(); }
+	void returnPrice(double price) { 
+		char myString[20] = "";
+		sprintf(myString, "%.2f", price);
+		rp_costReturn->value(myString); }
 
 	string name() { return rp_name->value(); }
 	string model_number() { return rp_model_number->value(); }
@@ -313,11 +361,38 @@ public:
 		{
 			rp_batteries3->add(Shop.batteries[i].getName().c_str());
 		}
+
+	}
+	double calculatePrice() {
+		double cost = 0;
+
+		cost += Shop.arms[roboModelsGUIP->arm1()].getCost();
+		cost += Shop.torsos[roboModelsGUIP->torso()].getCost();
+		cost += Shop.heads[roboModelsGUIP->head()].getCost();
+		cost += Shop.locomotors[roboModelsGUIP->locomotor()].getCost();
+		cost += Shop.batteries[roboModelsGUIP->battery1()].getCost();
+
+		if (roboModelsGUIP->arm2() != 0)
+		{
+			cost += Shop.arms[roboModelsGUIP->arm2()-1].getCost();
+		}
+		if (roboModelsGUIP->batterylimit() == 2)
+		{
+			cost += roboModelsGUIP->battery2() != 0 ? Shop.batteries[roboModelsGUIP->battery2() - 1].getCost() : 0;
+		}
+		else if (roboModelsGUIP->batterylimit() == 3)
+		{
+			cost += roboModelsGUIP->battery2() != 0 ? Shop.batteries[roboModelsGUIP->battery2() - 1].getCost() : 0;
+			cost += roboModelsGUIP->battery3() != 0 ? Shop.batteries[roboModelsGUIP->battery3() - 1].getCost() : 0 ;
+		}
+		return cost;
 	}
 
 
 private:
 	Fl_Window *dialog;
+	Fl_Button *rp_costBtn;
+	Fl_Button *rp_image_btn;
 	Fl_Input *rp_name;
 	Fl_Input *rp_model_number;
 	Fl_Choice *rp_arm1;
@@ -333,9 +408,108 @@ private:
 	Fl_Input *rp_cost;
 	Fl_Return_Button *rp_create;
 	Fl_Button *rp_cancel;
+	Fl_Output *rp_costReturn;
 
 };
+class orderCreateGUI {
+public:
+	orderCreateGUI() {
+		int x = 800, y = 530, i;
+		dialog = new Fl_Window(x, y, "Robot Part");
 
+		rp_month = new Fl_Input(80, 10, 50, 25, "Date");
+		rp_month->align(FL_ALIGN_LEFT);
+
+		rp_day = new Fl_Input(140, 10, 50, 25, "/");
+		rp_day->align(FL_ALIGN_LEFT);
+
+		rp_year = new Fl_Input(200, 10, 50, 25, "/");
+		rp_year->align(FL_ALIGN_LEFT);
+
+		rp_customer = new Fl_Choice(150, 40, 210, 25, "What is your Name?");
+		rp_associate = new Fl_Choice(150, 70, 210, 25, "Sales Associate?");
+		rp_location = new Fl_Input(150, 110, 210, 25, "Shipping distance\n(miles)");
+		rp_order_number = new Fl_Input(150, 140, 210, 25, "Order Number");
+
+		rp_model = new Fl_Choice(500, 40, 210, 25, "Robot Model");
+		rp_model->align(FL_ALIGN_TOP);
+		rp_model->callback((Fl_Callback *)getRobotInfoCB, 0);
+
+
+
+		rp_cost = new Fl_Output(500, 350, 210, 25, "Set Price:");
+		rp_cost->align(FL_ALIGN_LEFT);
+
+		rp_total_cost = new Fl_Output(500, 480, 210, 25, "Total Cost");
+		rp_total_cost->align(FL_ALIGN_LEFT);
+
+		rp_description = new Fl_Multiline_Output(500, 380, 210, 75, "Description:");
+		rp_description->align(FL_ALIGN_LEFT);
+
+		rp_create = new Fl_Return_Button(145, 300, 120, 25, "Create");
+		rp_create->callback((Fl_Callback *)createOrderCB, 0);
+
+		rp_cancel = new Fl_Button(270, 300, 60, 25, "Cancel");
+		rp_cancel->callback((Fl_Callback *)cancelOrder, 0);
+
+		dialog->end();
+		dialog->set_non_modal();
+
+	}
+
+	void show() { dialog->show(); }
+	void hide() { dialog->hide(); }
+	void updateDropdowns() {
+		for (int i = 0; i< Shop.customers.size(); i++)
+		{
+			rp_customer->add(Shop.customers[i].getName().c_str());
+		}
+		for (int i = 0; i< Shop.associates.size(); i++)
+		{
+			rp_associate->add(Shop.associates[i].getAssociateName().c_str());
+		}
+		for (int i = 0; i< Shop.completedModels.size(); i++)
+		{
+			rp_model->add(Shop.completedModels[i].getRobotName().c_str());
+		}
+	}
+	void updateRobotInfo(){
+		char myString[30] = "";
+		sprintf(myString, "%.2f", Shop.completedModels[rp_model->value()].getModelAskingPrice());
+		rp_cost->value(myString);
+		rp_description->value(Shop.completedModels[rp_model->value()].getRobotDescription().c_str());
+		sprintf(myString, "%.2f", Shop.completedModels[rp_model->value()].getModelAskingPrice() + stof(rp_location->value()) * .05);
+		rp_total_cost->value(myString);
+
+	}
+	int customer(){ return rp_customer->value(); }
+	int month() { return stoi(rp_month->value()); }
+	int day() { return stoi(rp_day->value()); }
+	int year() { return stoi(rp_year->value()); }
+	int associates() { return rp_associate->value(); }
+	int model() { return rp_model->value(); }
+	int orderNumber() { return stoi(rp_order_number->value()); }
+	double askingPrice() { return Shop.completedModels[rp_model->value()].getModelAskingPrice(); };
+
+
+private:
+	Fl_Window *dialog;
+	Fl_Input *rp_order_number;
+	Fl_Choice *rp_customer;
+	Fl_Choice *rp_associate;
+	Fl_Choice *rp_model;
+	Fl_Input *rp_location;
+	Fl_Input *rp_year;
+	Fl_Input *rp_day;
+	Fl_Input *rp_month;
+	Fl_Return_Button *rp_create;
+	Fl_Button *rp_cancel;
+
+	Fl_Output *rp_total_cost;
+	Fl_Multiline_Output *rp_description;
+	Fl_Output *rp_cost;
+
+};
 //
 // Callbacks
 //
@@ -351,7 +525,7 @@ void cancelCustomer(Fl_Widget* w, void* p) {
 }
 void createCustomerCB(Fl_Widget* w, void* p)
 {
-	Shop.createCustomers(customerGUIP->name());
+	Shop.createCustomers(customerGUIP->name(), customerGUIP->address(), customerGUIP->phoneNumber(), customerGUIP->email());
 	customerGUIP->hide();
 }
 
@@ -364,7 +538,7 @@ void cancelSalesAssociate(Fl_Widget* w, void* p) {
 }
 void createSalesAccociateCB(Fl_Widget* w, void* p)
 {
-	Shop.createSalesAssociate(salesAssociateGUIP->name());
+	Shop.createSalesAssociate(salesAssociateGUIP->name(), salesAssociateGUIP->employeeNumber());
 	salesAssociateGUIP->hide();
 }
 
@@ -491,7 +665,6 @@ void createModelCB(Fl_Widget* w, void* p) {
 
 	roboModelsGUIP->hide();
 }
-
 void batteryLimitCB(Fl_Widget* w, void* p) {
 
 	if (1 == roboModelsGUIP->batterylimit()) {
@@ -508,6 +681,27 @@ void batteryLimitCB(Fl_Widget* w, void* p) {
 	}
 
 }
+void getPrice(Fl_Widget* w, void* p) {
+	roboModelsGUIP->returnPrice(roboModelsGUIP->calculatePrice());
+}
+
+//CreateOrders
+void createOrdersGUI(Fl_Widget* w, void* p) {
+	orderCreateGUIP->updateDropdowns();
+	orderCreateGUIP->show();
+}
+void cancelOrder(Fl_Widget* w, void* p) {
+	orderCreateGUIP->hide();
+}
+void createOrderCB(Fl_Widget* w, void* p) {
+
+	Shop.createOrder(orderCreateGUIP->orderNumber(), orderCreateGUIP->month(), orderCreateGUIP->day(), orderCreateGUIP->year(), orderCreateGUIP->askingPrice(), orderCreateGUIP->associates(), orderCreateGUIP->customer(), orderCreateGUIP->model());
+	orderCreateGUIP->hide();
+}
+void getRobotInfoCB(Fl_Widget* w, void* p) {
+	orderCreateGUIP->updateRobotInfo();
+}
+
 
 
 
@@ -519,26 +713,11 @@ void batteryLimitCB(Fl_Widget* w, void* p) {
 
 Fl_Menu_Item menuitems[] = {
 	{ "&Create", 0, 0, 0, FL_SUBMENU },
-	{ "Order", 0, (Fl_Callback *)CB, 0, FL_MENU_DIVIDER },
+	{ "Order", 0, (Fl_Callback *)createOrdersGUI, 0, FL_MENU_DIVIDER },
 	{ "Customer", 0, (Fl_Callback *)createCustomerGUI },
 	{ "Sales Associate", 0, (Fl_Callback *)createSalesAssociateGUI, 0, FL_MENU_DIVIDER },
 	{ "Robot Part", 0, (Fl_Callback *)createRoboPartsGUI },
-	{ "Robot Model", 0, (Fl_Callback *)createModelsGUI },/*
-	{ 0 },
-	{ "&Report", 0, 0, 0, FL_SUBMENU },
-	{ "Invoice", 0, (Fl_Callback *)CB, 0, FL_MENU_DIVIDER },
-	{ "All Orders", 0, (Fl_Callback *)CB },
-	{ "Orders by Customer", 0, (Fl_Callback *)CB },
-	{ "Orders by Sales Associate", 0, (Fl_Callback *)CB, 0, FL_MENU_DIVIDER },
-	{ "All Customers", 0, (Fl_Callback *)CB },
-	{ "All Sales Associates", 0, (Fl_Callback *)CB, 0, FL_MENU_DIVIDER },
-	{ "All Robot Models", 0, (Fl_Callback *)CB },
-	{ "All Robot Parts", 0, (Fl_Callback *)CB },
-	{ 0 },
-	{ "&Help", 0, 0, 0, FL_SUBMENU },
-	{ "&Manual", 0, (Fl_Callback *)CB },
-	{ "&About", 0, (Fl_Callback *)CB },
-	{ 0 },*/
+	{ "Robot Model", 0, (Fl_Callback *)createModelsGUI },
 	{ 0 }
 };
 
@@ -561,13 +740,17 @@ int main() {
 	Shop.createPart(8, "Torso2", 3, 40, 64, "Its an  Torsos 2", 0, 0, 0, 2);
 	Shop.createPart(7, "Locomotor1", 4, 72, 45 , "Its an Loco 1", 16, 19, 0, 0);
 	Shop.createPart(8, "Locomotor2", 4, 50,80 , "Its an Loco 2", 32, 38, 0, 0);
+	
+ //Tester Input
+
+
 
 	// Create dialogs
 	customerGUIP = new customerGUI{};
 	salesAssociateGUIP = new salesAssociateGUI{};
 	roboPartsGUIP = new roboPartsGUI{};
 	roboModelsGUIP = new roboModelsGUI{};
-	
+	orderCreateGUIP = new orderCreateGUI{};
 
 	// Create a window
 	win = new Fl_Window{ X, Y, "Robbie Robot Shop Manager" };

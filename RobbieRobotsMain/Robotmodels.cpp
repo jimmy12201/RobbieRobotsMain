@@ -31,10 +31,6 @@ void robotModels::createRobot(string name1, string cost1, string modelNumber1, s
 		modelParts.push_back(&Batteries[battery3]);
 	}
 
-	for (int i = 0; i < modelParts.size(); i++){
-		cout << modelParts[i]->getName() << endl;
-	}
-
 
 
 
